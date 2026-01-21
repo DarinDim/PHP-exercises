@@ -1,0 +1,19 @@
+<?php
+require_once __DIR__ . '/../auth.php';
+require_once __DIR__ . '/../db.php';
+
+requireLogin();
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: products.php');
+    exit;
+}
+
+$id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
+if ($id > 0) {
+    $stmt = $pdo->prepare('DELETE FROM products WHERE id = :id');
+    $stmt->execute(['id' => $id]);
+}
+
+header('Location: products.php');
+exit;

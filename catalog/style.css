@@ -1,0 +1,216 @@
+/* ============================================
+   style.css - Responsive Design Stylesheet
+   ============================================ */
+
+/* ===== BASE STYLES ===== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Inter, Segoe UI, Arial, sans-serif;
+  background: #f6f8fb;
+  color: #1c2230;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ===== HEADER STYLES ===== */
+header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.lead {
+  margin: 4px 0 0;
+  color: #6b7280;
+}
+
+/* ===== CONTROLS & SEARCH ===== */
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 18px 0;
+}
+
+.search {
+  display: flex;
+  gap: 8px;
+}
+
+.search input[type="search"] {
+  padding: 8px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+}
+
+.search button {
+  padding: 8px 12px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  border-radius: 6px;
+}
+
+/* ===== BUTTON STYLES ===== */
+.btn {
+  display: inline-block;
+  padding: 8px 12px;
+  background: #111827;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
+  border: none;
+}
+
+.btn.add {
+  background: #10b981;
+}
+
+.btn.danger {
+  background: #ef4444;
+}
+
+/* ===== GRID & CARD LAYOUT ===== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(18, 21, 26, 0.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.thumb {
+  width: 100%;
+  height: 180px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card-body {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card-body h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+/* ===== CARD CONTENT ===== */
+.category {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.desc {
+  color: #374151;
+  font-size: 0.95rem;
+}
+
+.price {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.actions {
+  margin-top: auto;
+  display: flex;
+  gap: 8px;
+}
+
+/* ===== FORM STYLES ===== */
+.form-page {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(18, 21, 26, 0.06);
+}
+
+label {
+  display: block;
+  margin-bottom: 12px;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+}
+
+textarea {
+  min-height: 120px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+/* ===== MESSAGES & UTILITIES ===== */
+.errors {
+  background: #fff5f5;
+  border: 1px solid #fecaca;
+  color: #7f1d1d;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.empty {
+  color: #6b7280;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  margin: 30px 0 60px;
+  color: #6b7280;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 600px) {
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search {
+    width: 100%;
+  }
+
+  .btn.add {
+    width: 100%;
+  }
+}

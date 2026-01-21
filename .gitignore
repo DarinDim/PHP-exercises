@@ -1,0 +1,33 @@
+# PHP
+*.php.bak
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# XAMPP
+xampp/
+dashboard/
+webalizer/
+
+# Test folder
+tets/
+
+# Node modules
+node_modules/
+
+# Logs
+*.log
+
+# Database backups
+*.sql.bak
+*.sql.gz
