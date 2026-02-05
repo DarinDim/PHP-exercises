@@ -48,7 +48,7 @@
 <body>
     <div class="container">
         <h1>Масив със случайни числа</h1>
-        <p>Четните числа се показват в <span class="even">красно</span>, нечетните в <span class="odd">черно</span></p>
+        <p>Четните числа се показват в <span class="even">червено</span>, нечетните в <span class="odd">черно</span></p>
         
         <div class="form-group">
             <form method="post">

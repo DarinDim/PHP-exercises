@@ -32,7 +32,7 @@
                 echo "<span style='color: red;'>$i</span> ";
                 echo "<br>"; 
             } else {
-                echo "<span style='color: black; background-color: red;'>$i</span> ";
+                echo "<span style='color: black'>$i</span> ";
             }
         }
     } else {
