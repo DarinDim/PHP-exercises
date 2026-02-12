@@ -431,11 +431,52 @@
                     <span class="status-badge status-partial">~ В папката /catalog/admin</span>
                 </div>
             </div>
+
+            <!-- Упражнение 13 -->
+            <div class="exercise-card">
+                <div class="card-header">
+                    <div class="card-number">Упражнение 13</div>
+                    <h2>Responsive Grid</h2>
+                    <p>Bootstrap + Адаптивен дизайн</p>
+                </div>
+                <div class="card-content">
+                    <ul>
+                        <li>Bootstrap Grid система</li>
+                        <li>Три колони в първия ред</li>
+                        <li>Две колони във втория ред</li>
+                        <li>Автоматично преустройване на малки екрани</li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="13_responsive_grid/index.php" class="btn">Отворете упражнението</a>
+                    <span class="status-badge status-complete">✓ Завършено</span>
+                </div>
+            </div>
+            <!-- Упражнение 14 -->
+            <div class="exercise-card">
+                <div class="card-header">
+                    <div class="card-number">Упражнение 14</div>
+                    <h2>Bootstrap Страница</h2>
+                    <p>Използване на готови компоненти от Bootstrap</p>
+                </div>
+                <div class="card-content">
+                    <ul>
+                        <li>Навигация с Navbar</li>
+                        <li>Carousel (слайдшоу)</li>
+                        <li>Карти (Card) и Grid система</li>
+                        <li>Текстове и снимки на български</li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="14_bootstrap/index.php" class="btn">Отворете упражнението</a>
+                    <span class="status-badge status-complete">✓ Завършено</span>
+                </div>
+            </div>
         </div>
 
         <!-- Footer -->
         <div class="footer">
-            <h3>📖 Информация</h3>
+            <h3> Информация</h3>
             <p>
                 Това е колекция от PHP упражнения, които покриват основни концепции като:<br>
                 <strong>Цикли, Условия, Масиви, Класове, Формуляри, База Данни, Галерия, Сесии</strong>
