@@ -472,6 +472,27 @@
                     <span class="status-badge status-complete">✓ Завършено</span>
                 </div>
             </div>
+
+            <!-- Упражнение 15 -->
+            <div class="exercise-card">
+                <div class="card-header">
+                    <div class="card-number">Упражнение 15</div>
+                    <h2>Форма с Regex</h2>
+                    <p>Две полета + валидация</p>
+                </div>
+                <div class="card-content">
+                    <ul>
+                        <li>Име (букви) и имейл</li>
+                        <li>Сървърна валидация с preg_match</li>
+                        <li>Красив и модерен дизайн</li>
+                        <li>Показване на грешки под полетата</li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="15_regex_form/index.php" class="btn">Отворете упражнението</a>
+                    <span class="status-badge status-partial">⚠️ Ново</span>
+                </div>
+            </div>
         </div>
 
         <!-- Footer -->
