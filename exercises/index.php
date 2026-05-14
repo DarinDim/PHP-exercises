@@ -427,7 +427,7 @@
                     </ul>
                 </div>
                 <div class="card-footer">
-                    <a href="../catalog/admin/index.php" class="btn">Отворете админа</a>
+                    <a href="../catalog/admin/dashboard.php" class="btn">Отворете админа</a>
                     <span class="status-badge status-partial">~ В папката /catalog/admin</span>
                 </div>
             </div>
@@ -491,6 +491,48 @@
                 <div class="card-footer">
                     <a href="15_regex_form/index.php" class="btn">Отворете упражнението</a>
                     <span class="status-badge status-partial">⚠️ Ново</span>
+                </div>
+            </div>
+
+            <!-- Упражнение 16 -->
+            <div class="exercise-card">
+                <div class="card-header">
+                    <div class="card-number">Упражнение 16</div>
+                    <h2>Изпращане на Email с PHPMailer</h2>
+                    <p>SMTP и имейл форми</p>
+                </div>
+                <div class="card-content">
+                    <ul>
+                        <li>PHPMailer интеграция</li>
+                        <li>Форма за изпращане на електронна поща</li>
+                        <li>SMTP конфигурация</li>
+                        <li>Статус съобщение при изпращане</li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="16_PHPMailer/index.php" class="btn">Отворете упражнението</a>
+                    <span class="status-badge status-partial">⚠️ Ново</span>
+                </div>
+            </div>
+
+            <!-- Catalog API -->
+            <div class="exercise-card">
+                <div class="card-header">
+                    <div class="card-number">API</div>
+                    <h2>Catalog API</h2>
+                    <p>REST API за каталога</p>
+                </div>
+                <div class="card-content">
+                    <ul>
+                        <li>Данни за продукти в JSON формат</li>
+                        <li>Връзка към backend API</li>
+                        <li>Извикване от клиентска страна</li>
+                        <li>Интеграция със системата на каталога</li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="../catalog/api.php" class="btn">Отворете API</a>
+                    <span class="status-badge status-partial">~ В папката /catalog</span>
                 </div>
             </div>
         </div>

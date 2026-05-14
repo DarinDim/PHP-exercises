@@ -42,7 +42,7 @@
 
 1. **Клониране на репото**
 ```bash
-git clone https://github.com/yourusername/PHP-exercises.git
+git clone https://github.com/DarinDim/PHP-exercises.git
 cd PHP-exercises
 ```
 
