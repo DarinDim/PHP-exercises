@@ -515,6 +515,27 @@
                 </div>
             </div>
 
+            <!-- Упражнение 17 -->
+            <div class="exercise-card">
+                <div class="card-header">
+                    <div class="card-number">Упражнение 17</div>
+                    <h2>Калкулатор с файлова история</h2>
+                    <p>PHP калкулатор + запис във файл</p>
+                </div>
+                <div class="card-content">
+                    <ul>
+                        <li>Математически изрази с оператори</li>
+                        <li>Уникален дизайн с бутонна клавиатура</li>
+                        <li>Изчисления на сървъра с PHP</li>
+                        <li>Съхранение на история във файл</li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="17_Calculator/index.php" class="btn">Отворете упражнението</a>
+                    <span class="status-badge status-complete">✓ Завършено</span>
+                </div>
+            </div>
+
             <!-- Catalog API -->
             <div class="exercise-card">
                 <div class="card-header">
