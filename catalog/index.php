@@ -57,7 +57,7 @@ $cartCount = isset($_SESSION[$cart_key]) ? array_sum($_SESSION[$cart_key]) : 0;
 <div class="top-nav">
     <div><strong>Каталог</strong></div>
     <div>
-        <a href="cart.php">🛒 Количка <?php if ($cartCount > 0): ?><span class="cart-badge"><?= $cartCount ?></span><?php endif; ?></a>
+        <a href="cart.php"> Количка <?php if ($cartCount > 0): ?><span class="cart-badge"><?= $cartCount ?></span><?php endif; ?></a>
         <a href="login.php" style="margin-left: 20px;">Админ</a>
     </div>
 </div>

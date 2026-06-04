@@ -177,7 +177,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>📚 PHP Упражнения - Колекция</h1>
+        <h1> PHP Упражнения - Колекция</h1>
         
         <div class="exercises-grid">
             <!-- Упражнение 1 -->

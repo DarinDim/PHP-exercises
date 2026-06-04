@@ -1,0 +1,53 @@
+version: '3.9'
+
+services:
+  # PHP Web Application
+  web:
+    build: .
+    image: darindim/php-exercises-web:latest
+    container_name: php_exercises_web
+    ports:
+      - "8080:80"
+    environment:
+      - DB_HOST=mysql
+      - DB_NAME=catalog_db
+      - DB_USER=catalog_user
+      - DB_PASS=catalog_password
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - mysql
+    restart: unless-stopped
+
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: php_exercises_mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: catalog_db
+      MYSQL_USER: catalog_user
+      MYSQL_PASSWORD: catalog_password
+    volumes:
+      - ./catalog/seed.sql:/docker-entrypoint-initdb.d/seed.sql
+      - mysql_data:/var/lib/mysql
+    restart: unless-stopped
+
+  # phpMyAdmin (Database Management)
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: php_exercises_phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: root_password
+    depends_on:
+      - mysql
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
