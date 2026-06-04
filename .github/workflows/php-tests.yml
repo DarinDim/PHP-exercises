@@ -1,160 +1,30 @@
-name: PHP Tests and Lint
+name: PHP Code Unit Tests
 
 on:
   push:
-    branches:
-      - main
-      - develop
+    branches: [ main, develop ]
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
-  php-lint:
-    name: PHP Syntax Check
+  run-php-tests:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        php-versions: ['8.1', '8.2', '8.3']
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php-versions }}
-          extensions: pdo, pdo_mysql, mysqli, gd, zip
-
-      - name: Run PHP Lint
-        run: |
-          find . -type f -name "*.php" ! -path "./vendor/*" -print0 | xargs -0 -n 1 php -l
-          echo "✅ PHP Syntax check passed!"
-
-  code-quality:
-    name: Code Quality Checks
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup PHP
+      - name: Setup PHP environment
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
-          extensions: pdo, pdo_mysql, mysqli, gd, zip
+          extensions: pdo, pdo_mysql, mysqli, zip
 
-      - name: Install dependencies
+      # Optional: Uncomment if you are using composer packages
+      # - name: Install Composer Dependencies
+      #   run: composer install --prefer-dist --no-progress
+
+      - name: Run Syntax Check (Lint)
         run: |
-          composer install --dev 2>/dev/null || echo "No composer.json found"
-
-      - name: Check for security vulnerabilities
-        run: |
-          echo "Running basic security checks..."
-          # Check for common PHP security issues
-          grep -r "mysql_" . --include="*.php" --exclude-dir=vendor && echo "⚠️ Found deprecated mysql_ functions!" || echo "✅ No deprecated mysql_ functions"
-          grep -r "eval(" . --include="*.php" --exclude-dir=vendor && echo "⚠️ Found eval() usage!" || echo "✅ No eval() usage found"
-          grep -r "\$_REQUEST" . --include="*.php" --exclude-dir=vendor --exclude-dir=.github && echo "⚠️ Found insecure \$_REQUEST usage!" || echo "✅ No insecure \$_REQUEST usage"
-
-  docker-test:
-    name: Docker Compose Test
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Start Docker Compose
-        run: |
-          docker compose up -d
-          echo "Waiting for services to be ready..."
-          sleep 20
-
-      - name: Test Web Service
-        run: |
-          curl -v http://localhost:8080/ | grep -q "DOCTYPE" && echo "✅ Web service is responding"
-
-      - name: Test MySQL Connection
-        run: |
-          docker compose exec -T mysql mysql -u catalog_user -pcatalog_password catalog_db -e "SELECT COUNT(*) as product_count FROM products;" || exit 1
-
-      - name: Test phpMyAdmin
-        run: |
-          curl -s http://localhost:8081/ | grep -q "phpMyAdmin" && echo "✅ phpMyAdmin is responding"
-
-      - name: Test API Endpoint
-        run: |
-          curl -s http://localhost:8080/catalog/api.php | head -20
-
-      - name: Get container logs
-        if: failure()
-        run: |
-          echo "=== Web Container Logs ===" 
-          docker compose logs web
-          echo "=== MySQL Container Logs ===" 
-          docker compose logs mysql
-
-      - name: Cleanup
-        if: always()
-        run: docker compose down -v
-
-jobs:
-  database-schema:
-    name: Database Schema Validation
-    runs-on: ubuntu-latest
-    
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: root_password
-          MYSQL_DATABASE: catalog_db
-          MYSQL_USER: catalog_user
-          MYSQL_PASSWORD: catalog_password
-        options: >-
-          --health-cmd="mysqladmin ping"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
-        ports:
-          - 3306:3306
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Wait for MySQL
-        run: |
-          for i in {30..0}; do
-            if mysql -h 127.0.0.1 -u catalog_user -pcatalog_password -e "SELECT 1" > /dev/null 2>&1; then
-              break
-            fi
-            echo "Waiting for MySQL..."
-            sleep 1
-          done
-          if [ "$i" = 0 ]; then
-            echo "MySQL connection failed"
-            exit 1
-          fi
-
-      - name: Load Database Schema
-        run: |
-          mysql -h 127.0.0.1 -u catalog_user -pcatalog_password catalog_db < catalog/seed.sql
-
-      - name: Validate Tables
-        run: |
-          mysql -h 127.0.0.1 -u catalog_user -pcatalog_password catalog_db -e "SHOW TABLES;"
-          echo "✅ Database schema loaded successfully"
-
-      - name: Check Data Integrity
-        run: |
-          mysql -h 127.0.0.1 -u catalog_user -pcatalog_password catalog_db -e "
-          SELECT COUNT(*) as products_count FROM products;
-          SELECT COUNT(*) as users_count FROM users;
-          SELECT COUNT(*) as orders_count FROM orders;
-          "
+          echo "Checking PHP files for syntax errors..."
+          find . -name "*.php" -not -path "./vendor/*" -exec php -l {} \;

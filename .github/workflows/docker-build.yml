@@ -82,7 +82,7 @@ jobs:
           
           docker compose exec -T mysql mysql -u catalog_user -pcatalog_password catalog_db -e "SHOW TABLES;" || exit 1
           
-          echo "✅ All integration tests passed successfully!"
+          echo " All integration tests passed successfully!"
           
       - name: Cleanup
         if: always()
