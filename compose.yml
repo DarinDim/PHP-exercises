@@ -1,7 +1,6 @@
 version: '3.9'
 
 services:
-  # PHP Web Application
   web:
     build: .
     image: darindim/php-exercises-web:latest
@@ -19,7 +18,22 @@ services:
       - mysql
     restart: unless-stopped
 
-  # MySQL Database
+  api:
+    build: ./api-service
+    image: darindim/api-service:latest
+    container_name: php_exercises_api
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=mysql
+      - DB_NAME=catalog_db
+      - DB_USER=catalog_user
+      - DB_PASS=catalog_password
+      - PORT=3000
+    depends_on:
+      - mysql
+    restart: unless-stopped
+
   mysql:
     image: mysql:8.0
     container_name: php_exercises_mysql
@@ -35,7 +49,6 @@ services:
       - mysql_data:/var/lib/mysql
     restart: unless-stopped
 
-  # phpMyAdmin (Database Management)
   phpmyadmin:
     image: phpmyadmin:latest
     container_name: php_exercises_phpmyadmin
