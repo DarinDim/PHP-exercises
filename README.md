@@ -91,41 +91,6 @@ docker compose ps
 | Administrator | admin | password | admin |
 | User | customer1 | password | customer |
 
-#### Basic Docker Commands
-
-```bash
-# Start containers
-docker compose up -d
-
-# Stop containers
-docker compose down
-
-# View active containers
-docker compose ps
-
-# View logs
-docker compose logs -f
-
-# Logs for specific service
-docker compose logs -f web
-docker compose logs -f mysql
-
-# Access PHP container
-docker compose exec web bash
-
-# Access MySQL container
-docker compose exec mysql mysql -u catalog_user -pcatalog_password catalog_db
-
-# Full cleanup (including database)
-docker compose down -v
-
-# Rebuild images
-docker compose build --no-cache
-
-# Restart services
-docker compose restart
-```
-
 #### Docker Container Structure
 
 ```
@@ -144,6 +109,12 @@ MySQL Service (Port 3306)
 phpMyAdmin (Port 8081)
   - Database GUI
   - Connected to MySQL
+
+API Service
+  - PHP REST API endpoints
+  - Serves `catalog/api.php`
+  - Connected to MySQL
+  - Health Check: Enabled
 ```
 
 #### Data Persistence
@@ -152,68 +123,7 @@ phpMyAdmin (Port 8081)
 - **Uploaded files**: `catalog/uploads/` - mounted in container
 - **All files**: Synchronized between host and container
 
-#### Troubleshooting
-
-**Problem: "Port 8080 already in use"**
-```bash
-# Find what's using the port
-netstat -ano | findstr :8080
-
-# Or change port number in compose.yml
-# Edit: ports: - "8090:80"
-```
-
-**Problem: "Cannot connect to Docker daemon"**
-- Ensure Docker Desktop is running
-- On Linux, use: `sudo usermod -aG docker $USER`
-
-**Problem: Database not initializing**
-```bash
-# Delete old data and restart
-docker compose down -v
-docker compose up -d
-```
-
-**Problem: PHP files not updating in container**
-```bash
-# Rebuild images
-docker compose build --no-cache
-docker compose up -d
-```
-
 ---
-
-### Option 2: Local Server (XAMPP/Local)
-
-#### Requirements
-
-- PHP 7.4+
-- MySQL 5.7+
-- XAMPP or other local server
-
-#### Installation
-
-1. **Clone the repository**
-```bash
-git clone https://github.com/DarinDim/PHP-exercises.git
-cd PHP-exercises
-```
-
-2. **Copy files to XAMPP**
-```bash
-cp -r exercises /path/to/xampp/htdocs/
-cp -r catalog /path/to/xampp/htdocs/
-```
-
-3. **Configure database**
-- Open phpMyAdmin: `http://localhost/phpmyadmin`
-- Import `catalog/seed.sql`
-- Configure `catalog/db.php`
-
-4. **Start**
-- Exercises: `http://localhost/exercises/`
-- Catalog: `http://localhost/catalog/`
-- Admin panel: `http://localhost/catalog/admin/`
 
 ## Docker Architecture
 
@@ -247,45 +157,6 @@ cp -r catalog /path/to/xampp/htdocs/
   - Connection to MySQL service
   - Useful for development and debugging
 
-### Dockerfile Analysis
-
-The multi-stage architecture of the Dockerfile has the following objectives:
-
-```
-Stage 1: Builder
-- Install dependencies
-- Compile PHP extensions
-- Copy application
-- Configure Apache
-
-Stage 2: Production
-- Minimal image (runtime only)
-- Copy extensions from Builder
-- Copy application
-- Optimized for size
-```
-
-**Advantages:**
-- Reduced image size
-- Faster execution
-- Fewer vulnerabilities
-- Better performance
-
-### Docker Compose Network
-
-All containers are connected via a bridge network `php_network`:
-
-```
-Host Machine
-  Port 8080 -> Web
-  Port 3306 -> MySQL
-  Port 8081 -> phpMyAdmin
-
-Docker Network (php_network)
-  - web (http, localhost)
-  - mysql (tcp, localhost)
-  - phpmyadmin
-```
 
 ---
 
@@ -449,57 +320,6 @@ PHP Application
 3. **Database**: `catalog_db` is created automatically via `seed.sql`
 4. **User**: `catalog_user` with password `catalog_password`
 
-### Environment Variables
-
-In Docker Compose, set via `environment` section:
-
-```yaml
-environment:
-  - DB_HOST=mysql
-  - DB_NAME=catalog_db
-  - DB_USER=catalog_user
-  - DB_PASS=catalog_password
-```
-
-Read in PHP via `getenv()` or `$_ENV`:
-
-```php
-$DB_HOST = getenv('DB_HOST') ?: '127.0.0.1';
-$DB_NAME = getenv('DB_NAME') ?: 'catalog_db';
-```
-
-### Health Checks
-
-Each service has health check for status control:
-
-```yaml
-# Web Service Health Check
-healthcheck:
-  test: ["CMD", "curl", "-f", "http://localhost/"]
-  interval: 30s
-  timeout: 10s
-  retries: 3
-
-# MySQL Health Check
-healthcheck:
-  test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-  interval: 10s
-  timeout: 5s
-```
-
----
-
-## Security
-
-The project demonstrates best practices:
-- PDO for SQL injection prevention - parameterized queries
-- htmlspecialchars() for XSS prevention - special characters are encoded
-- CSRF tokens - protection from cross-site requests
-- Input validation - all data is validated
-- Secure sessions - proper session handling
-- password_hash() and password_verify() - cryptographic password hashing
-- Docker Security - unprivileged execution (www-data user)
-
 
 ## Technologies and Dependencies
 
@@ -525,46 +345,6 @@ The project demonstrates best practices:
 - **Docker Compose** - Container orchestration
 - **phpMyAdmin** - Database management
 
----
-
-## Monitoring and Debugging
-
-### View Logs
-
-```bash
-# Logs of all services
-docker compose logs -f
-
-# Logs of specific service
-docker compose logs -f web
-docker compose logs -f mysql
-docker compose logs -f phpmyadmin
-
-# Last 100 lines
-docker compose logs --tail=100 web
-
-# Real-time logs with timestamps
-docker compose logs --timestamps web
-```
-
-### Access Containers
-
-```bash
-# Shell access to PHP container
-docker compose exec web bash
-docker compose exec web sh
-
-# Direct command execution
-docker compose exec web ls -la /var/www/html
-
-# MySQL CLI
-docker compose exec mysql mysql -u catalog_user -pcatalog_password catalog_db
-
-# PHP CLI
-docker compose exec web php --version
-docker compose exec web php -r "phpinfo();"
-```
-
 ### Resource Monitoring
 
 ```bash
@@ -577,104 +357,6 @@ docker compose ps --all
 # Service statistics
 docker stats
 ```
-
----
-
-## Development and Testing
-
-### Working with Files
-
-All host files are automatically synchronized with the container via volumes:
-
-```yaml
-volumes:
-  - ./:/var/www/html
-  - ./catalog/uploads:/var/www/html/catalog/uploads
-```
-
-### Adding New Dependencies
-
-If you need new PHP extensions or packages:
-
-1. **Edit Dockerfile**
-2. **Rebuild image**
-```bash
-docker compose build --no-cache
-```
-
-3. **Restart containers**
-```bash
-docker compose down
-docker compose up -d
-```
-
-### Testing in Container
-
-```bash
-# Copy file to container
-docker compose cp test.php web:/var/www/html/test.php
-
-# Copy from container
-docker compose cp web:/var/www/html/test.txt ./test.txt
-
-# Execute PHP script
-docker compose exec web php /var/www/html/test.php
-```
-
----
-
-## Deployment to Docker Hub
-
-### Preparation
-
-1. **Create Docker Hub account**: https://hub.docker.com/
-
-2. **Login to Docker**
-```bash
-docker login
-```
-
-3. **Build image with correct name**
-```bash
-# Format: username/repository:tag
-docker build -t yourusername/php-exercises:latest .
-docker build -t yourusername/php-exercises:1.0 .
-```
-
-### Push to Docker Hub
-
-```bash
-# Push image
-docker push yourusername/php-exercises:latest
-docker push yourusername/php-exercises:1.0
-
-# Check on Docker Hub
-# https://hub.docker.com/r/yourusername/php-exercises
-```
-
-### Use Image from Docker Hub
-
-```bash
-# Pull image
-docker pull yourusername/php-exercises:latest
-
-# Start container
-docker run -p 8080:80 -e DB_HOST=mysql yourusername/php-exercises:latest
-```
-
----
-
-## Exercise Documentation
-
-Each exercise includes:
-- `index.php` - main code
-- Inline comments
-- Getting started instructions
-- Error handling
-- README with description
-
-See the `exercises/` folder for details on each exercise.
-
 
 ## License
 
