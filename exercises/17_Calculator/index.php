@@ -86,7 +86,7 @@ function esc($value)
         }
 
         .panel header {
-            padding: 24px;
+            padding: 40px;
             background: linear-gradient(135deg, rgba(103, 103, 255, 0.95), rgba(59, 130, 246, 0.92));
         }
 
@@ -103,7 +103,7 @@ function esc($value)
         }
 
         .panel .content {
-            padding: 24px;
+            padding: 40px;
         }
 
         .screen {
@@ -153,7 +153,6 @@ function esc($value)
         }
 
         .equal {
-            grid-column: span 2;
             background: linear-gradient(180deg, #ec4899 0%, #db2777 100%);
             color: #fff;
         }
@@ -176,12 +175,13 @@ function esc($value)
 
         .input-block input[type="text"] {
             width: 100%;
-            padding: 16px 18px;
+            padding: 18px;
             border-radius: 16px;
             border: 1px solid rgba(255, 255, 255, 0.14);
             background: rgba(255, 255, 255, 0.12);
             color: #fff;
             font-size: 1rem;
+            overflow-wrap: anywhere;
         }
 
         .message {
@@ -296,20 +296,28 @@ function esc($value)
                         <label for="expression">Математически израз</label>
                         <input type="text" id="expression" name="expression" value="<?php echo esc($expression); ?>" placeholder="Пр. 12+5*3" autocomplete="off">
                     </div>
-
-                    <div class="screen"><?php echo esc($expression ?: 'Готов за изчисление'); ?></div>
-
+                    
                     <div class="calculator-grid">
-                        <?php foreach (['7','8','9','4','5','6','1','2','3','0','.', '(', ')'] as $btn): ?>
-                            <button type="button" onclick="appendValue('<?php echo $btn; ?>')"><?php echo $btn; ?></button>
-                        <?php endforeach; ?>
-                        <button type="button" class="operator" onclick="appendValue('+')">+</button>
-                        <button type="button" class="operator" onclick="appendValue('-')">-</button>
-                        <button type="button" class="operator" onclick="appendValue('*')">×</button>
-                        <button type="button" class="operator" onclick="appendValue('/')">÷</button>
+                        <button type="button" onclick="appendValue('(')">(</button>
+                        <button type="button" onclick="appendValue(')')">)</button>
                         <button type="button" class="operator" onclick="appendValue('%')">%</button>
-                        <button type="button" class="clear" onclick="clearInput()">C</button>
+                        <button type="button" class="clear" onclick="clearInput()">AC</button>
+                        <button type="button" onclick="appendValue('7')">7</button>
+                        <button type="button" onclick="appendValue('8')">8</button>
+                        <button type="button" onclick="appendValue('9')">9</button>
+                        <button type="button" class="operator" onclick="appendValue('/')">÷</button>
+                        <button type="button" onclick="appendValue('4')">4</button>
+                        <button type="button" onclick="appendValue('5')">5</button>
+                        <button type="button" onclick="appendValue('6')">6</button>
+                        <button type="button" class="operator" onclick="appendValue('*')">×</button>
+                        <button type="button" onclick="appendValue('1')">1</button>
+                        <button type="button" onclick="appendValue('2')">2</button>
+                        <button type="button" onclick="appendValue('3')">3</button>
+                        <button type="button" class="operator" onclick="appendValue('-')">−</button>
+                        <button type="button" onclick="appendValue('0')">0</button>
+                        <button type="button" onclick="appendValue('.')">.</button>
                         <input type="submit" class="equal" value="=" title="Изчисли">
+                        <button type="button" class="operator" onclick="appendValue('+')">+</button>
                     </div>
 
                     <?php if ($result !== null): ?>
